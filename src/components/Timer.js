@@ -35,7 +35,7 @@ class Timer extends React.Component {
 
     render() {
         return (
-            <p> Timer active at BPM { this.props.bpm } ({ this.state.time } ms). </p>
+            <p> Timer {!this.props.metronome && 'in'}active at BPM { this.props.bpm } ({ this.state.time } ms). </p>
         )
     }
 }

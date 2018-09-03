@@ -7,7 +7,9 @@ import SoundUtilities from './../utilities/SoundUtilities'
  * 
  * Expected properties:
  *   - note: the MIDI pitch of the note
- *   - soundURL: the url of the sound
+ *   - soundURL: the URL of the sound
+ *   - name: the name of the note
+ *   - id: the ID of the string
  */
 class String extends React.Component {
     constructor(props) {
@@ -40,7 +42,14 @@ class String extends React.Component {
 
     render() {
         return (
-            <tr>    
+            <tr>
+                <td className="stringNameContainer">
+                    <div className="stringName">
+                        <span onClick={ this.playDefault }>
+                            { this.props.name }
+                        </span>
+                    </div>
+                </td>
                 <td className="string">
                     <hr/>
                     <div className="stringText">

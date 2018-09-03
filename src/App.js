@@ -2,16 +2,13 @@ import React, { Component } from 'react'
 import { Howl } from 'howler'
 import './style/AppStyle.css'
 
-import SoundUtilities from './utilities/SoundUtilities'
-import Strings from './components/Strings'
-import Timer from './components/Timer'
+import Player from './components/Player'
 
 class App extends Component {
     render() {
         return (
             <div className="app">
-                <Timer bpm={129} metronome={true}/>
-                <Strings />
+                <Player />
             </div>
         )
     }

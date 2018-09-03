@@ -7,14 +7,26 @@
     font-family: 'Roboto Mono', monospace;
 }
 
+.stringNameContainer {
+    position: relative;
+    padding-right: 1rem;
+}
+
 .string {
     position: relative;
     width: 50em;
-    background-color: white;
+}
+
+.stringName {
+    position: absolute;
+    top: 0;
+
+    font-weight: bold;
+    color: rgb(36, 36, 36)
 }
 
 .stringText {
     position: absolute;
     top: 0;
-    background-color: inherit;
+    background-color: white;
 }
