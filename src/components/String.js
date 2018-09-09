@@ -20,19 +20,23 @@ class String extends React.Component {
             src: [this.props.soundURL]
         })
 
-        console.log("Called string constructor for note " + this.props.note)
-
         this.playSound = this.playSound.bind(this)
         this.playDefault = this.playDefault.bind(this)
+        this.playFret = this.playFret.bind(this)
     }
 
     playSound(note) {
-        let noteFrequency = SoundUtilities.computeFrequency(this.props.note)
+        let noteFrequency = SoundUtilities.computeFrequency(note)
 
         let rate = noteFrequency / this.frequency
 
         this.sound.rate(rate)
         this.sound.play()
+    }
+
+    playFret(fret) {
+        let note = this.props.note + fret
+        this.playSound(note)
     }
 
     playDefault() {

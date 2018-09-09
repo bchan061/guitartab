@@ -1,0 +1,37 @@
+{
+    "title": "Test Tab 1",
+    "author": "pran pran chan",
+    "creator": "Brandon Chan",
+    "noteData": [
+        {
+            "string": 0,
+            "fret": 0,
+            "time": 500
+        },
+        {
+            "string": 1,
+            "fret": 4,
+            "time": 500
+        },
+        {
+            "string": 0,
+            "fret": 2,
+            "time": 625
+        },
+        {
+            "string": 1,
+            "fret": 4,
+            "time": 625
+        },
+        {
+            "string": 0,
+            "fret": 2,
+            "time": 625
+        },
+        {
+            "string": 1,
+            "fret": 4,
+            "time": 625
+        }
+    ]
+}

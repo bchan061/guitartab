@@ -18,7 +18,7 @@ class QueueTest extends React.Component {
             queue.enqueue(1)
 
             let item = queue.pop()
-            if (item != 1) {
+            if (item !== 1) {
                 console.log("Expected 1, got " + item)
                 return false;
             }

@@ -7,6 +7,13 @@ class Queue {
      */
     constructor() {
         this.items = []
+
+        this.enqueue = this.enqueue.bind(this)
+        this.enqueueAll = this.enqueueAll.bind(this)
+        this.peek = this.peek.bind(this)
+        this.pop = this.pop.bind(this)
+        this.size = this.size.bind(this)
+        this.isEmpty = this.isEmpty.bind(this)
     }
 
     /**
@@ -16,6 +23,14 @@ class Queue {
      */
     enqueue(item) {
         this.items.push(item)
+    }
+
+    /**
+     * Queues multiple items together.
+     * @param {array} items the items to queue
+     */
+    enqueueAll(items) {
+        this.items = this.items.concat(items)
     }
 
     /**
@@ -34,6 +49,24 @@ class Queue {
      */
     pop() {
         return this.items.shift()
+    }
+
+    /**
+     * Returns the length of the queue.
+     * 
+     * @returns the length of the queue
+     */
+    size() {
+        return this.items.length
+    }
+
+    /**
+     * Returns whether the queue was empty.
+     * 
+     * @returns whether the queue was empty
+     */
+    isEmpty() {
+        return this.size() === 0
     }
 }
 

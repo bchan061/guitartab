@@ -14,7 +14,9 @@ class Timer extends React.Component {
         super(props)
 
         this.state = {
-            time: SoundUtilities.bpmToMilliseconds(this.props.bpm)
+            time: SoundUtilities.bpmToMilliseconds(this.props.bpm),
+            metronome: this.props.metronome,
+            elapsed: 0
         }
 
         this.metronome = new Howl({
@@ -22,20 +24,38 @@ class Timer extends React.Component {
         })
 
         this.tick = this.tick.bind(this)
-        this.timer = setInterval(this.tick, this.state.time)
+        this.switchStatus = this.switchStatus.bind(this)
 
-        console.log(this.state.time)
+        this.timer = setInterval(this.tick, this.state.time)
+    }
+
+    switchStatus() {
+        this.setState(function(previousState, properties) {
+            return {
+                metronome: !previousState.metronome
+            }
+        })
     }
 
     tick() {
-        if (this.props.metronome) {
+        if (this.state.metronome) {
             this.metronome.play()
         }
+
+        this.setState(function(previousState, properties) {
+            return {
+                elapsed: previousState.elapsed + this.state.time
+            }
+        })
     }
 
     render() {
         return (
-            <p> Timer {!this.props.metronome && 'in'}active at BPM { this.props.bpm } ({ this.state.time } ms). </p>
+            <div>
+                <p> Timer {!this.state.metronome && 'in'}active at BPM { this.props.bpm } ({ this.state.time } ms). </p>
+                <p> Time elapsed: { this.state.elapsed } </p>
+                <input type="button" value="Metronome" onClick={ this.switchStatus }/>
+            </div>
         )
     }
 }
