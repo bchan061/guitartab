@@ -3,13 +3,13 @@ import './style/AppStyle.css'
 
 import TestData from './test/TestData'
 
-import Player from './components/Player'
+import Player from './components/react/Player'
 
 class App extends Component {
     render() {
         return (
             <div className="app">
-                Test
+                <Player />
             </div>
         )
     }
