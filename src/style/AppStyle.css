@@ -7,6 +7,10 @@
     font-family: 'Roboto Mono', monospace;
 }
 
+html, body {
+    overflow: hidden;
+}
+
 .app {
     width: 80%;
     height: 100%;
@@ -16,42 +20,48 @@
 
 .playerTable {
     width: 100%;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
+    position: relative;
+    border-collapse: collapse;
 }
 
 .playerTableRow {
     position: relative;
 }
 
-.playerTableRow:before {
-    content: " ";
+.playerTableName {
+    width: 1rem;
+}
+
+.playerTableBridge {
+    background-color: #00000044;
+    width: 0.125rem;
+}
+
+.playerTableDivisor {
     position: absolute;
-    left: 0%;
-    top: 50%;
-    width: 100%;
-    border-bottom: 2px solid black;
+    background-image: linear-gradient(to right, #CCCCCC00, #00CC0099, #CCCCCC00);
+    z-index: 1;
+    left: 3rem;
+    width: 1rem;
+    top: 0%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
-.playerTableColumn {
-    position: relative;
-}
-
-.playerTableString {
-    width: 1em;
-    text-align: center;
-    left: -1.5em;
-    position: relative;
-}
-
-.playerTableDivider {
-    background-color: black;
-    width: 0.125em;
-}
-
-.playerTableString {
+.playerTableLastPlayed {
+    position: absolute;
+    top: 0%;
     background-color: white;
+    left: 3rem;
 }
 
-.playerTable {
-    border-collapse: collapse;
+.playerTableFrets {
+    width: 0;
+}
+
+.playerFret {
+    position: absolute;
+    top: 0%;
+    background-color: white;
 }
