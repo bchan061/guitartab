@@ -51,7 +51,7 @@ class Tab {
             let spb = 60 / this.bpm
             /* 4 beats in a measure, for now */
             let spm = spb * 4
-            this.measures[i] = new Measure(this.bpm, measure, 2 + i * spm)
+            this.measures[i] = new Measure(this.bpm, measure, 0.01 + i * spm)
         }
     }
 

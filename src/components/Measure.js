@@ -1,4 +1,4 @@
-import Note from './Note'
+import Fret from './Fret'
 
 /**
  * A measure.
@@ -14,9 +14,16 @@ class Measure {
         this.bpm = bpm
         this.data = data
         this.offset = offset
+        this.time = (60 / bpm) * 4
+        this.steps = 1
         this.notes = []
 
         this.createNotes()
+        this.stepTime = this.calculateStepTime()
+    }
+
+    calculateStepTime() {
+        return (60 / this.bpm) * (4 / this.steps)
     }
 
     /**
@@ -40,16 +47,16 @@ class Measure {
      */
     createNotesFromString(stringData, stringI) {
         let steps = stringData.length
-        /* 4 beats in a measure */
-        let sForDivision = (60 / this.bpm) * 4 / steps
+        this.steps = Math.max(steps, this.steps)
 
         for (let i = 0; i < steps; i++) {
             let fret = stringData[i]
+            /* If no fret exists, mark that section as null */
+            let fretObject = null
             if (fret !== -1) {
-                let note = new Note(i * sForDivision + this.offset, fret)
-
-                this.notes[stringI].push(note)
+                fretObject = new Fret(fret)
             }
+            this.notes[stringI][i] = fretObject
         }
     }
 }

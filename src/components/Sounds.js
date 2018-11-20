@@ -20,15 +20,6 @@ class Sounds {
         Sounds.e4 = new Howl({
             src: ['sounds/e4.wav']
         })
-
-        Sounds.stringSounds = [
-            Sounds.e4,
-            Sounds.b3,
-            Sounds.g3,
-            Sounds.d3,
-            Sounds.a2,
-            Sounds.e2
-        ]
     }
 }
 

@@ -18,50 +18,71 @@ html, body {
     text-align: center;
 }
 
+.bordered {
+    border: 2px solid yellow;
+}
+
+.player {
+
+}
+
+.mainPlayer {
+    background-color: rgb(250, 248, 217);
+    border: 0.75em solid rgb(250, 248, 217);
+    border-radius: 0.75em;
+}
+
 .playerTable {
     width: 100%;
     font-size: 1.25rem;
     position: relative;
     border-collapse: collapse;
+
+    border: 0.125em solid black;
 }
 
-.playerTableRow {
-    position: relative;
+.playerTableColumn {
+    border-bottom: 0.125em solid black;
+    text-align: center;
 }
 
-.playerTableName {
-    width: 1rem;
-}
-
-.playerTableBridge {
-    background-color: #00000044;
-    width: 0.125rem;
-}
-
-.playerTableDivisor {
-    position: absolute;
-    background-image: linear-gradient(to right, #CCCCCC00, #00CC0099, #CCCCCC00);
-    z-index: 1;
-    left: 3rem;
-    width: 1rem;
-    top: 0%;
+.playerTableCellContainer {
+    width: 1em;
     height: 100%;
-    box-sizing: border-box;
 }
 
-.playerTableLastPlayed {
-    position: absolute;
-    top: 0%;
-    background-color: white;
-    left: 3rem;
+.playerTableActive {
+    background-color: rgba(0, 255, 0, 67);
 }
 
-.playerTableFrets {
-    width: 0;
+.playerTableInactive {
+    color: gray;
 }
 
-.playerFret {
-    position: absolute;
-    top: 0%;
-    background-color: white;
+.playerTableString {
+    width: 1em;
+    padding: 0.25em;
+    border: 0.125em solid black;
+}
+
+.playerControls {
+    width: 100%;
+}
+
+.playerControlsArrow {
+    font-size: 1.5em;
+    margin: 0.25em 0.25em 0 0;
+}
+
+.playerControlsButton {
+    font-size: 1.5em;
+    margin: 0.25em 0.25em;
+}
+
+.playerControlsArrows {
+    float: right;
+}
+
+.playerControlsButtons {
+    float: left;
 }

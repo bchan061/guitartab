@@ -10,6 +10,7 @@ import Sounds from './components/Sounds'
 class App extends Component {
     constructor(props) {
         super(props)
+
         Sounds.init()
     }
 
