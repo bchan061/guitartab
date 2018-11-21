@@ -49,6 +49,20 @@ class Tab {
         let object = {}
         object['title'] = this.title
         object['artist'] = this.artist
+        object['tabber'] = this.tabber
+        object['noteData'] = this.noteData
+        object['bpm'] = this.bpm
+        object['capo'] = this.capo
+        /*
+        this.title = this.data["title"]
+        this.artist = this.data["artist"]
+        this.tabber = this.data["tabber"]
+        this.bpm = this.data["bpm"]
+        this.noteData = this.data["noteData"]
+        this.capo = this.data["capo"]
+        */
+
+        return object
     }
 }
 
