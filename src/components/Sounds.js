@@ -1,6 +1,12 @@
 import { Howl } from 'howler'
 
+/**
+ * Contains all the sounds for the app.
+ */
 class Sounds {
+    /**
+     * Initiates all the sounds.
+     */
     static init() {
         Sounds.e2 = new Howl({
             src: ['sounds/e2.wav']

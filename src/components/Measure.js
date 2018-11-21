@@ -22,6 +22,9 @@ class Measure {
         this.stepTime = this.calculateStepTime()
     }
 
+    /**
+     * Calculates the time (in seconds) for each step.
+     */
     calculateStepTime() {
         return (60 / this.bpm) * (4 / this.steps)
     }

@@ -1,3 +1,6 @@
+/**
+ * A note.
+ */
 class Fret {
     constructor(fret) {
         this.fret = fret

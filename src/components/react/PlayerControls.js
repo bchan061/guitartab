@@ -1,6 +1,12 @@
 import React from 'react'
 
+/**
+ * The controls for the tab player.
+ */
 class PlayerControls extends React.Component {
+    /**
+     * Renders the controls.
+     */
     render() {
         let playPause = "Play"
         if (this.props.playing) {

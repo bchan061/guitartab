@@ -8,7 +8,7 @@
 }
 
 html, body {
-    overflow: hidden;
+    
 }
 
 .app {
@@ -53,16 +53,19 @@ html, body {
 
 .playerTableActive {
     background-color: rgba(0, 255, 0, 67);
+    font-size: 2vw;
 }
 
 .playerTableInactive {
     color: gray;
+    font-size: 2vw;
 }
 
 .playerTableString {
     width: 1em;
     padding: 0.25em;
     border: 0.125em solid black;
+    font-size: 2vw;
 }
 
 .playerControls {
@@ -81,8 +84,20 @@ html, body {
 
 .playerControlsArrows {
     float: right;
+    font-size: 1.25vw;
 }
 
 .playerControlsButtons {
     float: left;
+    font-size: 1.25vw;
+}
+
+.editorTextbox {
+    font-size: 2vw;
+    width: 2vw;
+    text-align: center;
+}
+
+.editorTextboxActive {
+    background-color: green;
 }

@@ -4,6 +4,7 @@ import './style/AppStyle.css'
 import TestData from './test/TestData'
 
 import Player from './components/react/Player'
+import Editor from './components/react/Editor'
 import SoundUtilities from './utilities/SoundUtilities';
 import Sounds from './components/Sounds'
 
@@ -17,7 +18,7 @@ class App extends Component {
     render() {
         return (
             <div className="app">
-                <Player data={ TestData }/>
+                <Editor data={ TestData }/>
             </div>
         )
     }

@@ -69,6 +69,11 @@ class Player extends React.Component {
         this.strings.push(string)
     }
 
+    /**
+     * Returns whether the React component should update or not.
+     * @param {*} nextProps the next properties of the component
+     * @param {*} nextState the next state of the component
+     */
     shouldComponentUpdate(nextProps, nextState) {
         return (
             this.state.currentMeasure !== nextState.currentMeasure ||
@@ -77,18 +82,24 @@ class Player extends React.Component {
         )
     }
 
+    /**
+     * Restarts the player at the beginning.
+     */
     restart() {
         this.time = 0
         this.setState(
             function(previousState, properties) {
                 return {
                     currentMeasure: 0,
-                    currentStep: 0
+                    currentStep: -1
                 }
             }
         )
     }
 
+    /**
+     * Either plays (if paused) or pauses (if playing) the current tab.
+     */
     playOrPause() {
         this.setState(
             function(previousState, properties) {
@@ -99,44 +110,67 @@ class Player extends React.Component {
         )
     }
 
+    /**
+     * Returns if the current measure is out of bounds.
+     * In other words, there is no measure at the current position.
+     */
     checkIfOutOfBounds() {
         return this.currentMeasureObject == null
     }
 
+    /**
+     * Returns if there are any measures before the current one.
+     */
     canGoLeft() {
         return (this.state.currentMeasure > 0)
     }
 
+    /**
+     * Goes to the previous measure.
+     */
     left() {
         if (this.canGoLeft()) {
             this.time = this.tab.measures[this.state.currentMeasure - 1].offset
             this.setState(
                 function(previousState, properties) {
                     return {
-                        currentMeasure: previousState.currentMeasure - 1
+                        currentMeasure: previousState.currentMeasure - 1,
+                        currentStep: -1
                     }
                 }
             )
         }
     }
 
+    /**
+     * Returns if there are any measures after the next one.
+     */
     canGoRight() {
         return (this.state.currentMeasure < this.tab.measures.length - 1)
     }
 
+    /**
+     * Goes to the next measure.
+     */
     right() {
         if (this.canGoRight()) {
             this.time = this.tab.measures[this.state.currentMeasure + 1].offset
             this.setState(
                 function(previousState, properties) {
                     return {
-                        currentMeasure: previousState.currentMeasure + 1
+                        currentMeasure: previousState.currentMeasure + 1,
+                        currentStep: -1
                     }
                 }
             )
         }
     }
 
+    /**
+     * Updates the player with a timestamp.
+     * Schedules another update with requestAnimationFrame.
+     * @param {} timestamp the current timestamp
+     */
     update(timestamp) {
         if (this.state.playing) {
             /* Delta time in seconds */
@@ -208,6 +242,10 @@ class Player extends React.Component {
         window.requestAnimationFrame(this.update)
     }
 
+    /**
+     * Plays the sounds at the current step.
+     * @param {number} step the number of the step
+     */
     playSoundsAtCurrentTime(step) {
         let notes = this.currentMeasureObject.notes
         for (let i = 0; i < this.strings.length; i++) {
@@ -219,6 +257,11 @@ class Player extends React.Component {
         }
     }
 
+    /**
+     * Returns a table column created with the values of the note.
+     * @param {*} note the note to play
+     * @param {*} i the step of the measure
+     */
     mapMeasureNotesToJSX(note, i) {
         let className = "playerTableContainer "
         if (i === this.state.currentStep) {
@@ -235,6 +278,10 @@ class Player extends React.Component {
         )
     }
 
+    /**
+     * Renders a measure.
+     * @param {object} measure the measure to render
+     */
     renderMeasure(measure) {
         if (measure == null) {
             return
@@ -265,6 +312,9 @@ class Player extends React.Component {
         )
     }
 
+    /**
+     * Renders a tab.
+     */
     renderTab() {
         let measure = this.renderMeasure(this.currentMeasureObject)
         return (
@@ -276,6 +326,10 @@ class Player extends React.Component {
         )
     }
 
+    /**
+     * Renders the player.
+     * Includes the controls.
+     */
     render() {
         let tab = this.renderTab()
         let title = this.tab.title

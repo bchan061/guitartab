@@ -1,5 +1,4 @@
 import Measure from './Measure'
-import NoteContainer from './NoteContainer';
 
 /**
  * A representation of tablature.
@@ -26,20 +25,8 @@ class Tab {
         this.noteData = this.data["noteData"]
         this.capo = this.data["capo"]
         this.measures = []
-        this.noteContainers = []
 
-        this.createNoteContainers()
         this.createMeasures()
-        this.collectNotes()
-    }
-
-    /**
-     * Create note containers for each of the strings.
-     */
-    createNoteContainers() {
-        for (let i = 0; i < 6; i++) {
-            this.noteContainers[i] = new NoteContainer()
-        }
     }
 
     /**
@@ -56,16 +43,12 @@ class Tab {
     }
 
     /**
-     * Collects notes into the strings from all of the measures.
+     * Exports the tab into JSON.
      */
-    collectNotes() {
-        for (let i = 0; i < this.measures.length; i++) {
-            let measure = this.measures[i]
-            for (let stringI = 0; stringI < 6; stringI++) {
-                let stringNotes = measure.notes[stringI]
-                this.noteContainers[stringI].addNotes(stringNotes)
-            }
-        }
+    exportToJson() {
+        let object = {}
+        object['title'] = this.title
+        object['artist'] = this.artist
     }
 }
 

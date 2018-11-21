@@ -1,6 +1,16 @@
 import SoundUtilities from '../utilities/SoundUtilities'
 
+/**
+ * A guitar string.
+ */
 class String {
+    /**
+     * Creates a guitar string.
+     * @param {string} name the name of the string
+     * @param {number} pitch the MIDI pitch of the string
+     * @param {object} sound the Howl associated with the string
+     * @param {number} capo the capo
+     */
     constructor(name, pitch, sound = null, capo = 0) {
         this.name = name
         this.pitch = pitch
