@@ -62,6 +62,46 @@ class Measure {
             this.notes[stringI][i] = fretObject
         }
     }
+
+    /**
+     * Changes the number of steps in the measure.
+     * @param {number} newSteps the number of new steps
+     */
+    changeSteps(newSteps) {
+        this.steps = newSteps
+
+        for (let stringI = 0; stringI < 6; stringI++) {
+            /** Slice the array down to length of max(newSteps, this.notes[stringI].length) */
+            this.notes[stringI] = this.notes[stringI].slice(0, newSteps)
+            for (let i = this.notes[stringI].length; i < newSteps; i++) {
+                this.notes[stringI].push(null)
+            }
+        }
+
+        this.stepTime = this.calculateStepTime()
+    }
+
+    /**
+     * Exports the measure into an array.
+     * Used to save the tab in JSON format.
+     */
+    export() {
+        let data = []
+        for (let stringI = 0; stringI < 6; stringI++) {
+            data[stringI] = []
+            for (let noteI = 0; noteI < this.steps; noteI++) {
+                let note = this.notes[stringI][noteI]
+
+                if (note === null) {
+                    data[stringI][noteI] = -1
+                } else {
+                    data[stringI][noteI] = note.fret
+                }
+            }
+        }
+
+        return data
+    }
 }
 
 export default Measure

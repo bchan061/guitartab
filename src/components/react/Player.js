@@ -38,6 +38,7 @@ class Player extends React.Component {
         this.right = this.right.bind(this)
         this.canGoLeft = this.canGoLeft.bind(this)
         this.canGoRight = this.canGoRight.bind(this)
+        this.onChangeCapo = this.onChangeCapo.bind(this)
     }
 
     /**
@@ -261,8 +262,9 @@ class Player extends React.Component {
      * Returns a table column created with the values of the note.
      * @param {*} note the note to play
      * @param {*} i the step of the measure
+     * @param {*} string the string number (0 = top E, ...)
      */
-    mapMeasureNotesToJSX(note, i) {
+    mapMeasureNotesToJSX(note, i, string) {
         let className = "playerTableContainer "
         if (i === this.state.currentStep) {
             className += "playerTableActive"
@@ -293,14 +295,16 @@ class Player extends React.Component {
             <tbody>
                 {
                     notes && notes.map(
-                        function(string, i) {
-                            let stringNotes = notes[i]
+                        function(string, stringI) {
+                            let stringNotes = notes[stringI]
                             return (
-                                <tr key={i} className="playerTableRow">
-                                    <th className="playerTableString"> { strings[i].name } </th>
+                                <tr key={stringI} className="playerTableRow">
+                                    <th className="playerTableString"> { strings[stringI].name } </th>
                                     {
                                         stringNotes && stringNotes.map(
-                                            mapNotesFunction
+                                            function(note, i) {
+                                                return mapNotesFunction(note, i, stringI)
+                                            }
                                         )
                                     }
                                 </tr>
@@ -320,10 +324,25 @@ class Player extends React.Component {
         return (
             <div className="player">
                 <table className="playerTable">
+
                     { measure }
                 </table>
             </div>
         )
+    }
+
+    /**
+     * Changes the capo for the tab.
+     * @param {*} value the capo value to change to
+     */
+    onChangeCapo(value) {
+        this.tab.capo = value
+
+        for (let stringI = 0; stringI < 6; stringI++) {
+            this.strings[stringI].capo = value
+        }
+
+        this.forceUpdate()
     }
 
     /**
@@ -345,12 +364,15 @@ class Player extends React.Component {
 
                 <PlayerControls
                     playing={ this.state.playing }
+                    tab={ this.tab }
+                    currentMeasure={ this.state.currentMeasure }
                     onPlayPause={ this.playOrPause }
                     onRestart={ this.restart }
                     onLeft={ this.left }
                     onRight={ this.right }
                     activeLeft={ this.canGoLeft() }
                     activeRight={ this.canGoRight() }
+                    onChangeCapo={ this.onChangeCapo }
                 />
             </div>
         )

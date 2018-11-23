@@ -10,6 +10,7 @@ class Tab {
      */
     constructor(data) {
         this.data = data
+        this.startOffset = 0.01
 
         this.constructFromData(data)
     }
@@ -26,6 +27,11 @@ class Tab {
         this.capo = this.data["capo"]
         this.measures = []
 
+        let spb = 60 / this.bpm
+        /* 4 beats in a measure, for now */
+        let spm = spb * 4
+        this.spm = spm
+
         this.createMeasures()
     }
 
@@ -35,11 +41,29 @@ class Tab {
     createMeasures() {
         for (let i = 0; i < this.noteData.length; i++) {
             let measure = this.noteData[i]
-            let spb = 60 / this.bpm
-            /* 4 beats in a measure, for now */
-            let spm = spb * 4
-            this.measures[i] = new Measure(this.bpm, measure, 0.01 + i * spm)
+            this.measures[i] = new Measure(this.bpm, measure, this.startOffset + i * this.spm)
         }
+    }
+
+    /**
+     * Recalculates offsets for all measures, starting at the specified start.
+     * @param {number} start the first measure to replace
+     */
+    recalculateOffsets(start) {
+        for (let i = start; i < this.measures.length; i++) {
+            this.measures[i].offset = (this.startOffset + (i * this.spm))
+        }
+    }
+
+    /**
+     * Compiles the measures into a format suitable for JSON.
+     */
+    compileMeasureData() {
+        let data = []
+        for (let i = 0; i < this.measures.length; i++) {
+            data.push(this.measures[i].export())
+        }
+        return data
     }
 
     /**
@@ -50,17 +74,9 @@ class Tab {
         object['title'] = this.title
         object['artist'] = this.artist
         object['tabber'] = this.tabber
-        object['noteData'] = this.noteData
+        object['noteData'] = this.compileMeasureData()
         object['bpm'] = this.bpm
         object['capo'] = this.capo
-        /*
-        this.title = this.data["title"]
-        this.artist = this.data["artist"]
-        this.tabber = this.data["tabber"]
-        this.bpm = this.data["bpm"]
-        this.noteData = this.data["noteData"]
-        this.capo = this.data["capo"]
-        */
 
         return object
     }
