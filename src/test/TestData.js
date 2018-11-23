@@ -1,3 +1,4 @@
-const testTab1 = require('./TestTab.json')
+/*const testTab1 = require('./TestTab.json')*/
+const natsukage = require('./Natsukage.json')
 
-export default testTab1
+export default natsukage
