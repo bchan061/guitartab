@@ -23,6 +23,35 @@ class Measure {
     }
 
     /**
+     * Copies data from an existing measure.
+     * @param {Measure} otherMeasure the other measure
+     */
+    copyFromExistingMeasure(otherMeasure) {
+        this.changeSteps(otherMeasure.steps)
+        for(let stringI = 0; stringI < 6; stringI++) {
+            let otherNotes = otherMeasure.notes[stringI]
+            for (let i = 0; i < this.steps; i++) {
+                let otherNote = otherNotes[i]
+                if (otherNote == null) {
+                    this.notes[stringI][i] = null
+                } else {
+                    this.notes[stringI][i] = new Fret(otherNote.fret)
+                }
+            }
+        }
+    }
+
+    /**
+     * Changes the BPM of the measure.
+     * @param {number} newBPM the new BPM
+     */
+    setBPM(newBPM) {
+        this.bpm = newBPM
+        this.time = (60 / this.bpm) * 4
+        this.stepTime = this.calculateStepTime()
+    }
+
+    /**
      * Calculates the time (in seconds) for each step.
      */
     calculateStepTime() {

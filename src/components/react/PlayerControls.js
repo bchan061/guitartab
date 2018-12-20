@@ -62,6 +62,7 @@ class PlayerControls extends React.Component {
                 <div>
                     <p> Measure Tools </p>
                     <b> Measure { this.props.currentMeasure + 1 }</b>
+                    <br/>
                     <button
                         className="playerControlsArrow"
                         onClick={ this.props.onLeft }

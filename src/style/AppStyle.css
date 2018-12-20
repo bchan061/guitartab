@@ -7,8 +7,8 @@
     font-family: 'Roboto Mono', monospace;
 }
 
-html, body {
-    
+body {
+    background-color: rgb(204, 255, 191);
 }
 
 .app {
@@ -35,38 +35,36 @@ html, body {
 .playerTable {
     width: 100%;
     font-size: 1.25rem;
-    position: relative;
-    border-collapse: collapse;
     background-color: rgb(253, 252, 238);
 
-    border: 0.125em solid black;
+    border-collapse: collapse;
 }
 
 .playerTableColumn {
-    border-bottom: 0.125em solid black;
+    font-size: 2vw;
+    width: 2vw;
+    height: 100%;
+    overflow: hidden;
+}
+
+.playerTableRow {
+    border: 0.125em solid black;
     text-align: center;
 }
 
-.playerTableCellContainer {
-    width: 1em;
-    height: 100%;
-}
-
 .playerTableActive {
-    background-color: rgba(0, 255, 0, 67);
-    font-size: 2vw;
+    background-color: rgba(0, 255, 0, 0.6);
 }
 
-.playerTableInactive {
-    color: gray;
-    font-size: 2vw;
+.playerTableCurrent {
+    background-color: rgba(0, 255, 0, 0.1);
 }
 
 .playerTableString {
-    width: 1em;
+    width: 3vw;
     padding: 0.25em;
-    border: 0.125em solid black;
     font-size: 2vw;
+    border-right: 0.125em solid black;
 }
 
 .playerControls {
@@ -86,6 +84,7 @@ html, body {
 .playerControlsTextbox {
     margin-left: 0.25em;
     font-size: 1.5em;
+    width: 5vw;
 }
 
 .playerControlsArrows {
@@ -95,6 +94,9 @@ html, body {
     margin-top: 0.5em;
     padding: 0.25em;
     border: 0.125em solid gray;
+    border-radius: 0.125em;
+
+    background-color: rgb(250, 248, 217);
 }
 
 .playerControlsButtons {
@@ -104,6 +106,9 @@ html, body {
     margin-top: 0.5em;
     padding: 0.25em;
     border: 0.125em solid gray;
+    border-radius: 0.125em;
+    
+    background-color: rgb(250, 248, 217);
 }
 
 .playerTableHeader {
@@ -118,4 +123,19 @@ html, body {
 
 .editorTextboxActive {
     background-color: green;
+}
+
+.dropdownList {
+    margin: 1em;
+    padding: 0.5em;
+    text-align: center;
+}
+
+.titles {
+    margin: 1vw;
+}
+
+.titleTextbox {
+    text-align: center;
+    font-size: 2vw;
 }

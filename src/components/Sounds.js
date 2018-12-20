@@ -1,4 +1,4 @@
-import { Howl } from 'howler'
+import { Howl, Howler } from 'howler'
 
 /**
  * Contains all the sounds for the app.
@@ -26,6 +26,8 @@ class Sounds {
         Sounds.e4 = new Howl({
             src: ['sounds/e4.wav']
         })
+
+        Howler.volume(0.3)
     }
 }
 

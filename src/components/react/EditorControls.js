@@ -5,6 +5,17 @@ class EditorControls extends PlayerControls {
     constructor(props) {
         super(props)
         this.changeSteps = this.changeSteps.bind(this)
+        this.changeMeasure = this.changeMeasure.bind(this)
+        this.changeBPM = this.changeBPM.bind(this)
+        this.changeLoop = this.changeLoop.bind(this)
+    }
+
+    /**
+     * Changes the BPM of the tab.
+     * @param {*} event 
+     */
+    changeBPM(event) {
+        this.props.onChangeBPM(Math.max(Math.min(999, event.target.value), 1))
     }
 
     /**
@@ -12,7 +23,7 @@ class EditorControls extends PlayerControls {
      * @param {number} value the new amount of steps
      */
     sanitizeSteps(value) {
-        return Math.max(Math.min(32, value), 0)
+        return Math.max(Math.min(32, value), 1)
     }
 
     /**
@@ -20,6 +31,20 @@ class EditorControls extends PlayerControls {
      */
     changeSteps(event) {
         this.props.onChangeSteps(this.sanitizeSteps(event.target.value))
+    }
+
+    /**
+     * Changes the current measure.
+     */
+    changeMeasure(event) {
+        this.props.onChangeMeasure(event.target.value)
+    }
+
+    /**
+     * Changes whether the current measure should loop or not.
+     */
+    changeLoop(event) {
+        this.props.onChangeLoop(!this.props.loop)
     }
 
     renderSongTools() {
@@ -44,6 +69,15 @@ class EditorControls extends PlayerControls {
                             onChange={ this.onChangeCapo }
                         />
                     </p> 
+                    <p>
+                        BPM:
+                        <input
+                            className="playerControlsTextbox"
+                            type="number"
+                            value={ this.props.tab.bpm }
+                            onChange={ this.changeBPM }
+                        />
+                    </p> 
                 </div>
             </span>
         )
@@ -53,7 +87,15 @@ class EditorControls extends PlayerControls {
         return (
         <span className="playerControlsArrows">
             <p> Measure Tools </p>
-            <b> Measure { this.props.currentMeasure + 1 }</b>
+            <b> Measure
+                <input
+                    className="playerControlsTextbox"
+                    type="number"
+                    onChange={ this.changeMeasure }
+                    value={ this.props.currentMeasure + 1 }
+                />
+            </b>
+            <br/>
             <div>
                 <button
                     className="playerControlsArrow"
@@ -75,6 +117,21 @@ class EditorControls extends PlayerControls {
                     Delete
                 </button>
             </div>
+            <div>
+                <button
+                    className="playerControlsButton"
+                    onClick={ this.props.onCopy }
+                >
+                    Copy
+                </button>
+                <button
+                    className="playerControlsButton"
+                    disabled={ !this.props.canPaste }
+                    onClick={ this.props.onPaste }
+                >
+                    Paste
+                </button>
+            </div>
             <p>
                 Steps:
                 <input
@@ -83,6 +140,13 @@ class EditorControls extends PlayerControls {
                     value={ this.props.tab.measures[this.props.currentMeasure].steps }
                     onChange={ this.changeSteps }
                 />
+            </p>
+            <p>
+                <input
+                    type="checkbox"
+                    value={ this.props.loop }
+                    onClick={ this.changeLoop }
+                /> Loop Measure
             </p>
         </span>
         )

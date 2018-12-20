@@ -25,14 +25,35 @@ class Tab {
         this.bpm = this.data["bpm"]
         this.noteData = this.data["noteData"]
         this.capo = this.data["capo"]
+        this.id = this.data["id"]
         this.measures = []
 
+        this.calculateSPM()
+        this.createMeasures()
+    }
+
+    /**
+     * Calculates the SPM for a new BPM.
+     */
+    calculateSPM() {
         let spb = 60 / this.bpm
         /* 4 beats in a measure, for now */
         let spm = spb * 4
         this.spm = spm
+    }
 
-        this.createMeasures()
+    /**
+     * Sets the new BPM for the tab.
+     * @param {number} newBPM the new BPM
+     */
+    setBPM(newBPM) {
+        this.bpm = newBPM
+        this.calculateSPM()
+        for (let i = 0; i < this.measures.length; i++) {
+            /* Recalculate each offset and set the bpm accordingly. */
+            this.measures[i].setBPM(this.bpm)
+            this.measures[i].offset = (this.startOffset + (i * this.spm))
+        }
     }
 
     /**
@@ -77,6 +98,7 @@ class Tab {
         object['noteData'] = this.compileMeasureData()
         object['bpm'] = this.bpm
         object['capo'] = this.capo
+        object['id'] = this.id
 
         return object
     }

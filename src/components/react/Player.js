@@ -27,6 +27,7 @@ class Player extends React.Component {
         this.newStep = true
         this.currentMeasureObject = null
         this.time = 0
+        this.loopCurrentMEasure = false
 
         this.tab = new Tab(this.props.data)
         this.initializeStrings(this.tab.capo)
@@ -39,6 +40,7 @@ class Player extends React.Component {
         this.canGoLeft = this.canGoLeft.bind(this)
         this.canGoRight = this.canGoRight.bind(this)
         this.onChangeCapo = this.onChangeCapo.bind(this)
+        this.onChangeLoop = this.onChangeLoop.bind(this)
     }
 
     /**
@@ -46,6 +48,18 @@ class Player extends React.Component {
      */
     componentDidMount() {
         window.requestAnimationFrame(this.update)
+    }
+
+    /**
+     * Swaps the current tab for a new tab in this.props.tab
+     * @param {object} newData the new tab data
+     */
+    swapTab(newData) {
+        this.tab = new Tab(newData)
+        this.currentMeasureObject = this.tab.measures[0]
+        this.updateStrings(this.tab.capo)
+        this.restart()
+        this.forceUpdate()
     }
 
     /**
@@ -58,6 +72,17 @@ class Player extends React.Component {
         this.addString("D", 50, Sounds.d3, capo)
         this.addString("A", 45, Sounds.a2, capo)
         this.addString("E", 40, Sounds.e2, capo)
+    }
+
+    /**
+     * Updates the strings of the player.
+     * @param {number} newCapo the new capo value
+     */
+    updateStrings(newCapo) {
+        for (let i = 0; i < this.strings.length; i++) {
+            let string = this.strings[i]
+            string.capo = newCapo
+        }
     }
 
     /**
@@ -76,6 +101,10 @@ class Player extends React.Component {
      * @param {*} nextState the next state of the component
      */
     shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.data['id'] !== this.props.data['id']) {
+            this.swapTab(nextProps.data)
+        }
+
         return (
             this.state.currentMeasure !== nextState.currentMeasure ||
             this.state.currentStep !== nextState.currentStep ||
@@ -196,17 +225,24 @@ class Player extends React.Component {
         let currentStep = Math.floor((this.time - this.currentMeasureObject.offset) / this.currentMeasureObject.stepTime)
 
         if (currentStep >= this.currentMeasureObject.steps) {
-            measureDelta = 1
-            this.currentMeasureObject = this.tab.measures[this.state.currentMeasure + 1]
-            this.newStep = true
-            if (this.currentMeasureObject != null) {
+            /** Get ready to get to the next measure. */
+            if (this.loop) {
+                this.newStep = true
+                this.time = this.currentMeasureObject.offset + (this.time - this.currentMeasureObject.stepTime)
                 currentStep = Math.floor((this.time - this.currentMeasureObject.offset) / this.currentMeasureObject.stepTime)
             } else {
-                willStop = true
+                measureDelta = 1
+                this.currentMeasureObject = this.tab.measures[this.state.currentMeasure + 1]
+                this.newStep = true
+                if (this.currentMeasureObject != null) {
+                    currentStep = Math.floor((this.time - this.currentMeasureObject.offset) / this.currentMeasureObject.stepTime)
+                } else {
+                    willStop = true
+                }
             }
         }
 
-        if (this.state.currentStep != currentStep) {
+        if (this.state.currentStep !== currentStep) {
             this.newStep = true
         }
 
@@ -265,18 +301,18 @@ class Player extends React.Component {
      * @param {*} string the string number (0 = top E, ...)
      */
     mapMeasureNotesToJSX(note, i, string) {
-        let className = "playerTableContainer "
+        let className = "playerTableColumn "
         if (i === this.state.currentStep) {
-            className += "playerTableActive"
-        } else {
-            className += "playerTableInactive"
+            if (note != null) {
+                className += "playerTableActive "
+            } else {
+                className += "playerTableCurrent "
+            }
         }
         return (
-            <th key={i} className="playerTableColumn">
-                <span className={ className }>
-                    { note && note.fret }
-                </span>
-            </th>
+            <td key={i} className={ className }>
+                { note && note.fret }
+            </td>
         )
     }
 
@@ -299,7 +335,7 @@ class Player extends React.Component {
                             let stringNotes = notes[stringI]
                             return (
                                 <tr key={stringI} className="playerTableRow">
-                                    <th className="playerTableString"> { strings[stringI].name } </th>
+                                    <td className="playerTableString"> { strings[stringI].name } </td>
                                     {
                                         stringNotes && stringNotes.map(
                                             function(note, i) {
@@ -324,7 +360,6 @@ class Player extends React.Component {
         return (
             <div className="player">
                 <table className="playerTable">
-
                     { measure }
                 </table>
             </div>
@@ -342,6 +377,15 @@ class Player extends React.Component {
             this.strings[stringI].capo = value
         }
 
+        this.forceUpdate()
+    }
+
+    /**
+     * Changes whether to loop or not.
+     * @param {boolean} shouldLoop the new loop status
+     */
+    onChangeLoop(shouldLoop) {
+        this.loop = shouldLoop
         this.forceUpdate()
     }
 
@@ -366,6 +410,7 @@ class Player extends React.Component {
                     playing={ this.state.playing }
                     tab={ this.tab }
                     currentMeasure={ this.state.currentMeasure }
+                    loop={ this.loop }
                     onPlayPause={ this.playOrPause }
                     onRestart={ this.restart }
                     onLeft={ this.left }
@@ -373,6 +418,7 @@ class Player extends React.Component {
                     activeLeft={ this.canGoLeft() }
                     activeRight={ this.canGoRight() }
                     onChangeCapo={ this.onChangeCapo }
+                    onChangeLoop={ this.onChangeLoop }
                 />
             </div>
         )
