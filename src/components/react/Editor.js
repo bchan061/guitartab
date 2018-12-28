@@ -4,7 +4,7 @@ import EditorControls from './EditorControls'
 import EditableNote from './EditableNote'
 import Fret from './../Fret'
 import Measure from '../Measure';
-import { isNumber } from 'util';
+import Stats from './Stats'
 
 class Editor extends Player {
     constructor(props) {
@@ -203,12 +203,18 @@ class Editor extends Player {
                 }
             )
         } else {
+            /* Copy the steps from the previous measure. */
+            let previousSteps = this.currentMeasureObject.steps
+
             let newMeasureOffset = this.tab.startOffset + (this.tab.spm * (this.state.currentMeasure + 1))
             let newMeasure = new Measure(
                 this.tab.bpm,
                 [[-1], [-1], [-1], [-1], [-1], [-1]],
                 newMeasureOffset
             )
+
+            newMeasure.changeSteps(previousSteps)
+
             this.time = newMeasureOffset
             this.tab.measures[this.state.currentMeasure + 1] = newMeasure
             this.setState(
@@ -306,6 +312,11 @@ class Editor extends Player {
                     onChangeLoop={ this.onChangeLoop }
                     canPaste={ this.state.clipboard !== null }
                     activeLeft={ this.canGoLeft() }
+                />
+
+                <Stats
+                    tab={ this.tab }
+                    strings={ this.strings }
                 />
             </div>
         )
