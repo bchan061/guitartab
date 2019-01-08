@@ -6,10 +6,14 @@ class Stats extends React.Component {
         super(props)
 
         this.state = {
-            expectedKey: ""
+            expectedKey: "",
+            noteOccurences: [],
+            ready: false
         }
 
         this.analyzeTab = this.analyzeTab.bind(this)
+        this.renderStats = this.renderStats.bind(this)
+        this.renderNoteOccurences = this.renderNoteOccurences.bind(this)
     }
 
     /**
@@ -18,7 +22,8 @@ class Stats extends React.Component {
     analyzeTab() {
         let expectedKey = ""
         let notes = []
-        for (let i = 0; i < SoundUtilities.notePitches.length; i++) {
+        /* 12 keys in a octave. */
+        for (let i = 0; i < 12; i++) {
             notes[i] = 0
         }
 
@@ -31,9 +36,9 @@ class Stats extends React.Component {
                 let capo = string.capo
                 for (let noteI = 0; noteI < currentMeasure.notes[stringI].length; noteI++) {
                     let note = currentMeasure.notes[stringI][noteI]
-                    if (note != -1) {
-                        let pitch = SoundUtilities.getMIDIPitch(midiPitch, capo, note)
-                        notes[pitch % SoundUtilities.notePitches.length] += 1
+                    if (note != null) {
+                        let pitch = SoundUtilities.getMIDIPitch(midiPitch, capo, note.fret)
+                        notes[pitch % 12] += 1
                     }
                 }
             }
@@ -49,21 +54,57 @@ class Stats extends React.Component {
             }
         }
 
-        expectedKey = SoundUtilities.notePitches[maxIndex]
+        expectedKey = SoundUtilities.notePitches[SoundUtilities.findMajorKey(notes)] + " Major"
 
         this.setState(
             function(previousState, properties)  {
                 return {
-                    expectedKey: expectedKey
+                    ready: true,
+                    expectedKey: expectedKey,
+                    noteOccurences: notes
                 }
             }
+        )
+    }
+
+    renderNoteOccurences() {
+        return (
+            <div className="statsOccurenceTable">
+                <table>
+                    <tbody>
+                        {
+                            this.state.noteOccurences.map(
+                                function(occurence, index) {
+                                    return (
+                                        <tr key={ index }>
+                                            <td> { SoundUtilities.notePitches[index] } </td>
+                                            <td>
+                                                { occurence }
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+
+    renderStats() {
+        return (
+            <div>
+                <p> Expected key: { this.state.expectedKey } </p>
+                { this.renderNoteOccurences() }
+            </div>
         )
     }
 
     render() {
         return (
             <div className="stats">
-                <p> { this.state.expectedKey && "Key: " + this.state.expectedKey } </p>
+                { this.state.ready && this.renderStats() }
                 <input type="button" value="Analyze" onClick={ this.analyzeTab } />
             </div>
         )

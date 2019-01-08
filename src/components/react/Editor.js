@@ -313,7 +313,6 @@ class Editor extends Player {
                     canPaste={ this.state.clipboard !== null }
                     activeLeft={ this.canGoLeft() }
                 />
-
                 <Stats
                     tab={ this.tab }
                     strings={ this.strings }

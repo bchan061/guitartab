@@ -69,6 +69,7 @@ body {
 
 .playerControls {
     width: 100%;
+    overflow: hidden;
 }
 
 .playerControlsArrow {
@@ -138,4 +139,17 @@ body {
 .titleTextbox {
     text-align: center;
     font-size: 2vw;
+}
+
+.stats {
+    background-color: rgb(174, 255, 154);
+    text-align: center;
+    width: 80%;
+    margin: 0.5em auto;
+    padding: 0.5em;
+    border: 0.125em solid black;
+}
+
+.statsOccurenceTable {
+    margin: 0 auto;
 }

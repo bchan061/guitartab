@@ -1,4 +1,4 @@
-## guitartab
+## tabr
 
 A React-based guitar tab editor and viewer.
 

@@ -1,12 +1,13 @@
 class SoundUtilities {
     static flatUnicode = '\u266D'
+    static sharpUnicode = '\u266F'
     static notePitches = [
-        "C", "D" + SoundUtilities.flatUnicode,
-        "D", "E" + SoundUtilities.flatUnicode,
+        "C", "C" + SoundUtilities.sharpUnicode + "/D" + SoundUtilities.flatUnicode,
+        "D", "D" + SoundUtilities.sharpUnicode + "/E" + SoundUtilities.flatUnicode,
         "E",
-        "F", "G" + SoundUtilities.flatUnicode,
-        "G", "A" + SoundUtilities.flatUnicode,
-        "A", "B" + SoundUtilities.flatUnicode,
+        "F", "F" + SoundUtilities.sharpUnicode + "/G" + SoundUtilities.flatUnicode,
+        "G", "G" + SoundUtilities.sharpUnicode + "/A" + SoundUtilities.flatUnicode,
+        "A", "A" + SoundUtilities.sharpUnicode + "/B" + SoundUtilities.flatUnicode,
         "B"
     ]
 
@@ -40,7 +41,46 @@ class SoundUtilities {
          *       H = half step
          */
 
-        
+        /* Omit last note: this is the root note raised by an octave */
+        let majorStepFormula = [0, 2, 2, 1, 2, 2, 2]
+        let notes = []
+        let current = note
+        for (let i = 0; i < majorStepFormula.length; i++) {
+            current = (current + majorStepFormula[i]) % 12
+            notes[i] = current
+        }
+
+        return notes
+    }
+
+    /**
+     * Finds the closest (relative) major key specified by the note occurences.
+     * @param {number[]} occurences the number of occurences for each pitch
+     * @returns the closest major key
+     */
+    static findMajorKey(occurences) {
+        let bestFindStrength = 0
+        let bestFind = 0
+        for (let i = 0; i < 12; i++) {
+            let iMajorScale = SoundUtilities.createMajorScaleFromNote(i)
+
+            /* 
+             * Multiply each of the specified keys in the major scale with the occurences,
+             * and add them together
+            */
+            let strength = 0
+            for (let keyI = 0; keyI < iMajorScale.length; keyI++) {
+                let pitch = iMajorScale[keyI]
+                strength += (occurences[pitch])
+            }
+
+            if (strength > bestFindStrength) {
+                bestFindStrength = strength
+                bestFind = i
+            }
+        }
+
+        return bestFind
     }
 
     /**
