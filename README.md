@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://www.ocf.berkeley.edu/~branchan/images/tabr-1.png" alt="Shootup Survival iTunes Artwork"/>
   <br/>
-  <b>Shootup Survival - 2012</b>
+  <b>tabr - 2018</b>
 </p>
 
 A React-based guitar tab editor and viewer.
