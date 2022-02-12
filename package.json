@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.5.3",
+    "ajv": "^6.12.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "howler": "^2.0.15",
